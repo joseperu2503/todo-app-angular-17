@@ -1,2 +1,68 @@
+<div class="w-full max-w-4xl mx-auto pt-16 px-6">
+  <div class="text-4xl font-bold text-green-dark">Hi, Junior</div>
+  <div class="text-md font-normal text-gray-500">Here are your tasks</div>
 
-<div class="text-red-300">hola</div>
+  <div class="relative flex items-center mt-6">
+    <i
+      class="fas fa-search absolute left-4 text-green-light pointer-events-none"
+    ></i>
+    <input
+      type="text"
+      class="bg-white border border-green-light pl-12 pr-4 py-4 rounded-xl w-full outline-green-light font-medium placeholder:text-green-light text-green-dark"
+      placeholder="Search a task"
+    />
+  </div>
+</div>
+<div class="w-full max-w-4xl mx-auto">
+  <div class="overflow-x-auto flex gap-4 mt-5 px-6">
+    <button class="px-6 py-1.5 bg-green-dark text-white w-min rounded-xl">
+      All
+    </button>
+    <button
+      class="px-6 py-1.5 bg-light-1 text-green-dark font-normal w-min rounded-xl"
+    >
+      Pending
+    </button>
+    <button
+      class="px-6 py-1.5 bg-light-1 text-green-dark font-normal w-min rounded-xl"
+    >
+      Completed
+    </button>
+  </div>
+</div>
+<div class="w-full max-w-4xl mx-auto pb-16 px-6 mt-14">
+  <section class="flex flex-col gap-4">
+    <div class="flex gap-4">
+      <input
+        type="text"
+        placeholder="New task"
+        class="px-4 py-3 bg-light-1 rounded-2xl w-full outline-none border border-green-light"
+      />
+      <button class="px-4 py-1 bg-green-dark rounded-2xl text-white">
+        Cancel
+      </button>
+    </div>
+    <div
+      class="bg-light-1 w-full py-6 px-4 rounded-2xl flex gap-4 items-center justify-between"
+    >
+      <div class="flex gap-4 items-center">
+        <div
+          class="w-6 h-6 border-green-light rounded-lg border-2 flex items-center justify-center cursor-pointer"
+        >
+          <i class="fas fa-check text-green-light"></i>
+        </div>
+        <div class="text-green-dark font-medium">
+          Jugar mañana con la pelota
+        </div>
+      </div>
+      <i
+        class="fas fa-trash text-green-light hover:text-green-dark cursor-pointer"
+      ></i>
+    </div>
+  </section>
+  <button
+    class="fixed bottom-6 right-6 w-16 h-16 rounded-full bg-green-dark flex justify-center items-center active:bg-green-light"
+  >
+    <i class="fas fa-plus text-white"></i>
+  </button>
+</div>
