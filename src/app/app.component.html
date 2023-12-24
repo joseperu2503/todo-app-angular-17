@@ -8,6 +8,8 @@
     ></i>
     <input
       type="text"
+      [ngModel]="searchTask()"
+      (ngModelChange)="searchTask.set($event)"
       class="bg-white border border-green-light pl-12 pr-4 py-4 rounded-xl w-full outline-green-light font-medium placeholder:text-green-light text-green-dark"
       placeholder="Search a task"
     />
@@ -15,15 +17,35 @@
 </div>
 <div class="w-full max-w-4xl mx-auto">
   <div class="overflow-x-auto flex gap-4 mt-5 px-6">
-    <button class="px-6 py-1.5 bg-green-dark text-white w-min rounded-xl">
+    <button
+      (click)="changeFilter('all')"
+      [ngClass]="[
+        filter() == 'all'
+          ? 'bg-green-dark text-white'
+          : 'bg-light-1 text-green-dark'
+      ]"
+      class="px-6 py-1.5 w-min rounded-xl"
+    >
       All
     </button>
     <button
-      class="px-6 py-1.5 bg-light-1 text-green-dark font-normal w-min rounded-xl"
+      (click)="changeFilter('pending')"
+      [ngClass]="[
+        filter() == 'pending'
+          ? 'bg-green-dark text-white'
+          : 'bg-light-1 text-green-dark'
+      ]"
+      class="px-6 py-1.5 font-normal w-min rounded-xl"
     >
       Pending
     </button>
     <button
+      (click)="changeFilter('completed')"
+      [ngClass]="[
+        filter() == 'completed'
+          ? 'bg-green-dark text-white'
+          : 'bg-light-1 text-green-dark'
+      ]"
       class="px-6 py-1.5 bg-light-1 text-green-dark font-normal w-min rounded-xl"
     >
       Completed
@@ -32,37 +54,79 @@
 </div>
 <div class="w-full max-w-4xl mx-auto pb-16 px-6 mt-14">
   <section class="flex flex-col gap-4">
-    <div class="flex gap-4">
-      <input
-        type="text"
-        placeholder="New task"
-        class="px-4 py-3 bg-light-1 rounded-2xl w-full outline-none border border-green-light"
-      />
-      <button class="px-4 py-1 bg-green-dark rounded-2xl text-white">
+    @if(showForm()){
+    <div class="flex gap-4 items-start">
+      <div class="flex-1 flex flex-col">
+        <input
+          type="text"
+          placeholder="New task"
+          [formControl]="newTaskCtrl"
+          #inputNew
+          (keydown.enter)="addTask()"
+          class="px-4 h-12 bg-light-1 rounded-2xl outline-none border border-green-light"
+        />
+        @if (newTaskCtrl.hasError('required') && newTaskCtrl.touched) {
+        <span class="text-sm text-red-600">Task is required</span>
+        }
+      </div>
+      <button
+        (click)="addTask()"
+        class="px-4 py-1 bg-green-dark rounded-2xl text-white h-12"
+      >
+        Save
+      </button>
+      <button
+        (click)="cancelAddTask()"
+        class="px-4 py-1 bg-transparent rounded-2xl text-green-dark font-medium h-12 hover:bg-green-light hover:bg-opacity-10"
+      >
         Cancel
       </button>
     </div>
+    } @for (task of filteredTaks(); track $index) {
     <div
-      class="bg-light-1 w-full py-6 px-4 rounded-2xl flex gap-4 items-center justify-between"
+      class="bg-light-1 w-full h-20 px-4 rounded-2xl flex gap-4 items-center justify-between"
     >
       <div class="flex gap-4 items-center">
         <div
+          (click)="toggleCompletedTask($index)"
           class="w-6 h-6 border-green-light rounded-lg border-2 flex items-center justify-center cursor-pointer"
         >
+          @if(task.completed){
           <i class="fas fa-check text-green-light"></i>
+          }
         </div>
-        <div class="text-green-dark font-medium">
-          Jugar mañana con la pelota
+        @if(!task.editing){
+        <div
+          class="text-green-dark font-medium"
+          [ngClass]="{ 'line-through text-green-light': task.completed }"
+          (dblclick)="editTask($index)"
+        >
+          {{ task.title }}
         </div>
+        } @else {
+        <input
+          type="text"
+          [formControl]="editTaskCtrl"
+          (keydown.enter)="updateTask($index)"
+          #inputEdit
+          (blur)="cancelUpdateTasks()"
+          class="px-2 py-1 outline-none rounded-md"
+        />
+        }
       </div>
       <i
+        (click)="deleteTask($index)"
         class="fas fa-trash text-green-light hover:text-green-dark cursor-pointer"
       ></i>
     </div>
+    }
   </section>
+  @if(!showForm()){
   <button
+    (click)="newTask()"
     class="fixed bottom-6 right-6 w-16 h-16 rounded-full bg-green-dark flex justify-center items-center active:bg-green-light"
   >
     <i class="fas fa-plus text-white"></i>
   </button>
+  }
 </div>
