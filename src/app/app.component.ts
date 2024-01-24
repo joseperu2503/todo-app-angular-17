@@ -95,10 +95,10 @@ export class AppComponent {
     this.newTaskCtrl.setValue('')
   }
 
-  toggleCompletedTask(index: number) {
+  toggleCompletedTask(id: number) {
     this.tasks.update((tasks) => {
-      return tasks.map((task, position) => {
-        if (position === index) {
+      return tasks.map((task) => {
+        if (task.id === id) {
           return {
             ...task,
             completed: !task.completed
@@ -109,40 +109,45 @@ export class AppComponent {
     })
   }
 
-  deleteTask(index: number) {
+  deleteTask(id: number) {
     this.tasks.update(tasks => {
-      return tasks.filter((_, position) => position !== index);
+      return tasks.filter((task) => task.id !== id);
     })
   }
 
 
-  editTask(index: number) {
+  editTask(id: number) {
     this.tasks.update((tasks) => {
-      return tasks.map((task, i) => {
+      return tasks.map((task) => {
         return {
           ...task,
-          editing: index == i
+          editing: task.id == id
         }
       })
     })
-    this.editTaskCtrl.setValue(this.tasks()[index].title)
+    this.editTaskCtrl.setValue(this.tasks().find(task => task.id === id)?.title ?? '')
     this.cdr.detectChanges();
     this.inputEdit?.nativeElement.select();
   }
 
-  updateTask(index: number) {
+  updateTask(id: number) {
     //quitamos los espacios
     const value = this.editTaskCtrl.value.trim()
     //validamos
     this.editTaskCtrl.setValue(value)
 
     if (this.editTaskCtrl.invalid) return;
-
     this.tasks.update((tasks) => {
-      tasks[index].title = this.editTaskCtrl.value
-      tasks[index].editing = false
-
-      return tasks;
+      return tasks.map((task) => {
+        if (task.id === id) {
+          return {
+            ...task,
+            title: this.editTaskCtrl.value,
+            editing: false
+          }
+        }
+        return task;
+      })
     })
   }
 

@@ -88,7 +88,7 @@
     >
       <div class="flex gap-4 items-center">
         <div
-          (click)="toggleCompletedTask($index)"
+          (click)="toggleCompletedTask(task.id)"
           class="w-6 h-6 border-green-light rounded-lg border-2 flex items-center justify-center cursor-pointer"
         >
           @if(task.completed){
@@ -99,7 +99,7 @@
         <div
           class="text-green-dark font-medium"
           [ngClass]="{ 'line-through text-green-light': task.completed }"
-          (dblclick)="editTask($index)"
+          (dblclick)="editTask(task.id)"
         >
           {{ task.title }}
         </div>
@@ -107,7 +107,7 @@
         <input
           type="text"
           [formControl]="editTaskCtrl"
-          (keydown.enter)="updateTask($index)"
+          (keydown.enter)="updateTask(task.id)"
           #inputEdit
           (blur)="cancelUpdateTasks()"
           class="px-2 py-1 outline-none rounded-md"
@@ -115,7 +115,7 @@
         }
       </div>
       <i
-        (click)="deleteTask($index)"
+        (click)="deleteTask(task.id)"
         class="fas fa-trash text-green-light hover:text-green-dark cursor-pointer"
       ></i>
     </div>
