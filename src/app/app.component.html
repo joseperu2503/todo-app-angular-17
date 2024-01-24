@@ -1,132 +1,135 @@
-<div class="w-full max-w-4xl mx-auto pt-16 px-6">
-  <div class="text-4xl font-bold text-green-dark">Hi, Junior</div>
-  <div class="text-md font-normal text-gray-500">Here are your tasks</div>
+<div class="bg-[#EDEDED] min-h-screen">
+  <img src="assets/fondo.svg" class="fixed" />
+  <div class="w-full max-w-3xl mx-auto pt-40 px-6">
+    <div class="text-4xl font-bold text-green-dark">Hi, Junior</div>
+    <div class="text-md font-normal text-gray-500">Here are your tasks</div>
 
-  <div class="relative flex items-center mt-6">
-    <i
-      class="fas fa-search absolute left-4 text-green-light pointer-events-none"
-    ></i>
-    <input
-      type="text"
-      [ngModel]="searchTask()"
-      (ngModelChange)="searchTask.set($event)"
-      class="bg-white border border-green-light pl-12 pr-4 py-4 rounded-xl w-full outline-green-light font-medium placeholder:text-green-light text-green-dark"
-      placeholder="Search a task"
-    />
+    <div class="relative flex items-center mt-6">
+      <i
+        class="fas fa-search absolute left-4 text-green-light pointer-events-none"
+      ></i>
+      <input
+        type="text"
+        [ngModel]="searchTask()"
+        (ngModelChange)="searchTask.set($event)"
+        class="bg-white border border-green-light pl-12 pr-4 py-4 rounded-xl w-full outline-green-light font-medium placeholder:text-green-light text-green-dark"
+        placeholder="Search a task"
+      />
+    </div>
   </div>
-</div>
-<div class="w-full max-w-4xl mx-auto">
-  <div class="overflow-x-auto flex gap-4 mt-5 px-6">
-    <button
-      (click)="changeFilter('all')"
-      [ngClass]="[
-        filter() == 'all'
-          ? 'bg-green-dark text-white'
-          : 'bg-light-1 text-green-dark'
-      ]"
-      class="px-6 py-1.5 w-min rounded-xl"
-    >
-      All
-    </button>
-    <button
-      (click)="changeFilter('pending')"
-      [ngClass]="[
-        filter() == 'pending'
-          ? 'bg-green-dark text-white'
-          : 'bg-light-1 text-green-dark'
-      ]"
-      class="px-6 py-1.5 font-normal w-min rounded-xl"
-    >
-      Pending
-    </button>
-    <button
-      (click)="changeFilter('completed')"
-      [ngClass]="[
-        filter() == 'completed'
-          ? 'bg-green-dark text-white'
-          : 'bg-light-1 text-green-dark'
-      ]"
-      class="px-6 py-1.5 bg-light-1 text-green-dark font-normal w-min rounded-xl"
-    >
-      Completed
-    </button>
-  </div>
-</div>
-<div class="w-full max-w-4xl mx-auto pb-16 px-6 mt-14">
-  <section class="flex flex-col gap-4">
-    @if(showForm()){
-    <div class="flex gap-4 items-start">
-      <div class="flex-1 flex flex-col">
-        <input
-          type="text"
-          placeholder="New task"
-          [formControl]="newTaskCtrl"
-          #inputNew
-          (keydown.enter)="addTask()"
-          class="px-4 h-12 bg-light-1 rounded-2xl outline-none border border-green-light"
-        />
-        @if (newTaskCtrl.hasError('required') && newTaskCtrl.touched) {
-        <span class="text-sm text-red-600">Task is required</span>
-        }
-      </div>
+  <div class="w-full max-w-3xl mx-auto">
+    <div class="overflow-x-auto flex gap-4 mt-5 px-6">
       <button
-        (click)="addTask()"
-        class="px-4 py-1 bg-green-dark rounded-2xl text-white h-12"
+        (click)="changeFilter('all')"
+        [ngClass]="[
+          filter() == 'all'
+            ? 'bg-green-dark text-white'
+            : 'bg-light-1 text-green-dark'
+        ]"
+        class="px-6 py-1.5 w-min rounded-xl"
       >
-        Save
+        All
       </button>
       <button
-        (click)="cancelAddTask()"
-        class="px-4 py-1 bg-transparent rounded-2xl text-green-dark font-medium h-12 hover:bg-green-light hover:bg-opacity-10"
+        (click)="changeFilter('pending')"
+        [ngClass]="[
+          filter() == 'pending'
+            ? 'bg-green-dark text-white'
+            : 'bg-light-1 text-green-dark'
+        ]"
+        class="px-6 py-1.5 font-normal w-min rounded-xl"
       >
-        Cancel
+        Pending
+      </button>
+      <button
+        (click)="changeFilter('completed')"
+        [ngClass]="[
+          filter() == 'completed'
+            ? 'bg-green-dark text-white'
+            : 'bg-light-1 text-green-dark'
+        ]"
+        class="px-6 py-1.5 bg-light-1 text-green-dark font-normal w-min rounded-xl"
+      >
+        Completed
       </button>
     </div>
-    } @for (task of filteredTaks(); track $index) {
-    <div
-      class="bg-light-1 w-full h-20 px-4 rounded-2xl flex gap-4 items-center justify-between"
-    >
-      <div class="flex gap-4 items-center">
-        <div
-          (click)="toggleCompletedTask(task.id)"
-          class="w-6 h-6 border-green-light rounded-lg border-2 flex items-center justify-center cursor-pointer"
-        >
-          @if(task.completed){
-          <i class="fas fa-check text-green-light"></i>
+  </div>
+  <div class="w-full max-w-3xl mx-auto pb-16 px-6 mt-14">
+    <section class="flex flex-col gap-4">
+      @if(showForm()){
+      <div class="flex flex-wrap gap-4 items-start">
+        <div class="flex flex-col w-full sm:flex-1">
+          <input
+            type="text"
+            placeholder="New task"
+            [formControl]="newTaskCtrl"
+            #inputNew
+            (keydown.enter)="addTask()"
+            class="px-4 h-12 bg-light-1 rounded-2xl outline-none border border-green-light"
+          />
+          @if (newTaskCtrl.hasError('required') && newTaskCtrl.touched) {
+          <span class="text-sm text-red-600">Task is required</span>
           }
         </div>
-        @if(!task.editing){
-        <div
-          class="text-green-dark font-medium"
-          [ngClass]="{ 'line-through text-green-light': task.completed }"
-          (dblclick)="editTask(task.id)"
+        <button
+          (click)="addTask()"
+          class="px-4 py-1 bg-green-dark rounded-2xl text-white h-12"
         >
-          {{ task.title }}
-        </div>
-        } @else {
-        <input
-          type="text"
-          [formControl]="editTaskCtrl"
-          (keydown.enter)="updateTask(task.id)"
-          #inputEdit
-          (blur)="cancelUpdateTasks()"
-          class="px-2 py-1 outline-none rounded-md"
-        />
-        }
+          Save
+        </button>
+        <button
+          (click)="cancelAddTask()"
+          class="px-4 py-1 bg-transparent rounded-2xl text-green-dark font-medium h-12 hover:bg-green-light hover:bg-opacity-10"
+        >
+          Cancel
+        </button>
       </div>
-      <i
-        (click)="deleteTask(task.id)"
-        class="fas fa-trash text-green-light hover:text-green-dark cursor-pointer"
-      ></i>
-    </div>
+      } @for (task of filteredTaks(); track $index) {
+      <div
+        class="bg-white w-full h-20 px-4 rounded-2xl flex gap-4 items-center justify-between"
+      >
+        <div class="flex gap-4 items-center">
+          <div
+            (click)="toggleCompletedTask(task.id)"
+            class="w-6 h-6 border-green-light rounded-lg border-2 flex items-center justify-center cursor-pointer"
+          >
+            @if(task.completed){
+            <i class="fas fa-check text-green-light"></i>
+            }
+          </div>
+          @if(!task.editing){
+          <div
+            class="text-green-dark font-medium"
+            [ngClass]="{ 'line-through text-green-light': task.completed }"
+            (dblclick)="editTask(task.id)"
+          >
+            {{ task.title }}
+          </div>
+          } @else {
+          <input
+            type="text"
+            [formControl]="editTaskCtrl"
+            (keydown.enter)="updateTask(task.id)"
+            #inputEdit
+            (blur)="cancelUpdateTasks()"
+            class="px-2 py-1 outline-none rounded-md"
+          />
+          }
+        </div>
+        <i
+          (click)="deleteTask(task.id)"
+          class="fas fa-trash text-green-light hover:text-green-dark cursor-pointer"
+        ></i>
+      </div>
+      }
+    </section>
+    @if(!showForm()){
+    <button
+      (click)="newTask()"
+      class="fixed bottom-6 right-6 w-16 h-16 rounded-full bg-green-dark flex justify-center items-center active:bg-green-light"
+    >
+      <i class="fas fa-plus text-white"></i>
+    </button>
     }
-  </section>
-  @if(!showForm()){
-  <button
-    (click)="newTask()"
-    class="fixed bottom-6 right-6 w-16 h-16 rounded-full bg-green-dark flex justify-center items-center active:bg-green-light"
-  >
-    <i class="fas fa-plus text-white"></i>
-  </button>
-  }
+  </div>
 </div>
